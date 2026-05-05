@@ -1,5 +1,6 @@
 import re
 
+from app.collection_namespace import to_internal
 from app.config import get_settings
 from app.agent.time_resolver import parse_time
 
@@ -71,6 +72,7 @@ def parse_query(
     collection = (collection_override.strip().upper() if collection_override else _extract_collection(question))
     if not collection:
         raise ValueError("collection is required")
+    collection = to_internal(collection)
     return {
         "intent": "WHY",
         "collection": collection,

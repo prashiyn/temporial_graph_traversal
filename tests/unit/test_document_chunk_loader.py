@@ -50,6 +50,6 @@ def test_loader_groups_by_document_and_enforces_doc_scope() -> None:
     result = load_document_chunks("RELIANCE", ["doc_1", "doc_2"], driver=driver)
 
     assert driver.session_obj.last_query == queries.LOAD_CHUNKS_FOR_DOC_IDS_QUERY
-    assert driver.session_obj.last_params == {"collection_id": "RELIANCE", "doc_ids": ["doc_1", "doc_2"]}
+    assert driver.session_obj.last_params == {"collection_id": "tgt_graph_RELIANCE", "doc_ids": ["doc_1", "doc_2"]}
     assert set(result.keys()) == {"doc_1", "doc_2"}
     assert [row["chunk_id"] for row in result["doc_1"]] == ["c1", "c2"]

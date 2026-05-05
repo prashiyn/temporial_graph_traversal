@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from neo4j.exceptions import Neo4jError, ServiceUnavailable
 
+from app.collection_namespace import to_internal
 from app.graph.neo4j_client import get_driver
 from app.graph.queries import TRAVERSE_REFERENCE_MULTI_HOP_QUERY
 
@@ -15,6 +16,7 @@ def traverse_reference_graph(
 ) -> list[dict]:
     if not collection:
         raise ValueError("collection is required")
+    collection = to_internal(collection) or collection
     if not doc_ids or not chunk_ids:
         return []
     if max_hops < 1:

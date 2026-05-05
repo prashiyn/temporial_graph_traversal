@@ -10,7 +10,7 @@ def test_execute_plan_phase5_returns_deduped_intermediate_outputs(monkeypatch) -
         "app.agent.executor.filter_chunks",
         lambda collection, doc_ids, target=None, section_hint=None: [  # noqa: ARG005
             {
-                "collection_id": "RELIANCE",
+                "collection_id": "tgt_graph_RELIANCE",
                 "document_id": "d1",
                 "chunk_id": "c1",
                 "content": "see table 3",
@@ -23,7 +23,7 @@ def test_execute_plan_phase5_returns_deduped_intermediate_outputs(monkeypatch) -
                 "match_reasons": ["target_in_content"],
             },
             {
-                "collection_id": "RELIANCE",
+                "collection_id": "tgt_graph_RELIANCE",
                 "document_id": "d1",
                 "chunk_id": "t1",
                 "content": "table body",
@@ -55,4 +55,4 @@ def test_execute_plan_phase5_returns_deduped_intermediate_outputs(monkeypatch) -
     assert len(result["events"]) == 2
     assert len(result["references"]) >= 1
     assert len(result["tables"]) >= 1
-    assert all(r.get("collection_id", "RELIANCE") == "RELIANCE" for r in result["references"])
+    assert all(r.get("collection_id", "tgt_graph_RELIANCE") == "tgt_graph_RELIANCE" for r in result["references"])

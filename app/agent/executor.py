@@ -1,5 +1,6 @@
 from app.agent.chunk_filter import filter_chunks
 from app.agent.document_resolver import resolve_documents
+from app.collection_namespace import to_internal
 from app.graph.traversal import traverse_reference_graph
 from app.models.execution import EventItem, ReferencePathItem, TableItem
 from app.models.time_context import TimeContext
@@ -50,7 +51,7 @@ def fetch_events(chunks: list[dict]) -> list[dict]:
 def traverse_references(chunks: list[dict]) -> list[dict]:
     if not chunks:
         return []
-    collection = chunks[0]["collection_id"]
+    collection = to_internal(chunks[0]["collection_id"]) or chunks[0]["collection_id"]
     doc_ids = sorted({chunk["document_id"] for chunk in chunks})
     resolved_references = resolve_structure_references(
         collection=collection,
@@ -107,6 +108,9 @@ def fetch_tables(references: list[dict]) -> list[dict]:
 
 
 def execute_plan(plan: dict, query: dict) -> dict:
+    query = {**query}
+    if query.get("collection"):
+        query["collection"] = to_internal(query["collection"]) or query["collection"]
     docs = filter_documents(query["collection"], query["time_context"])
     filtered_chunks = get_filtered_chunks(query["collection"], query, docs)
     events = fetch_events(filtered_chunks)

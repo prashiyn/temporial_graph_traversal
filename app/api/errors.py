@@ -1,5 +1,7 @@
 from fastapi import HTTPException
 
+from app.collection_namespace import to_external
+
 
 def api_error(status_code: int, code: str, message: str) -> HTTPException:
     return HTTPException(status_code=status_code, detail={"error": {"code": code, "message": message}})
@@ -22,4 +24,5 @@ def unresolved_reference_error() -> HTTPException:
 
 
 def collection_not_found_error(collection_id: str) -> HTTPException:
-    return api_error(404, "collection_not_found", f"Collection '{collection_id}' was not found.")
+    external = to_external(collection_id) or collection_id
+    return api_error(404, "collection_not_found", f"Collection '{external}' was not found.")

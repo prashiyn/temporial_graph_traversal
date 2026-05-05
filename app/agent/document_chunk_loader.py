@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from collections import defaultdict
 
+from app.collection_namespace import to_internal
 from app.graph.neo4j_client import get_driver
 from app.graph.queries import LOAD_CHUNKS_FOR_DOC_IDS_QUERY
 
@@ -13,6 +14,7 @@ def load_document_chunks(
 ) -> dict[str, list[dict]]:
     if not collection:
         raise ValueError("collection is required")
+    collection = to_internal(collection) or collection
     if not doc_ids:
         return {}
 

@@ -1,10 +1,13 @@
 from __future__ import annotations
 
+from app.collection_namespace import to_internal
+
 
 def evaluate_scenario_result(scenario: dict, result: dict) -> dict:
     expected = scenario.get("expected", {})
     question = scenario["question"]
     collection = scenario["collection"]
+    internal_collection = to_internal(collection) or collection
     answer = result.get("answer", {})
     execution = result.get("execution", {})
     direct_answer = str(answer.get("direct_answer", "")).lower()
@@ -21,10 +24,10 @@ def evaluate_scenario_result(scenario: dict, result: dict) -> dict:
 
     leakage_count = 0
     for table in execution.get("tables", []):
-        if table.get("collection_id") and table.get("collection_id") != collection:
+        if table.get("collection_id") and table.get("collection_id") != internal_collection:
             leakage_count += 1
     for ref in references:
-        if ref.get("collection_id") and ref.get("collection_id") != collection:
+        if ref.get("collection_id") and ref.get("collection_id") != internal_collection:
             leakage_count += 1
 
     passed = (

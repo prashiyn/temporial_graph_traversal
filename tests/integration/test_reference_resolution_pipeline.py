@@ -4,7 +4,7 @@ from app.agent.executor import traverse_references
 def test_traverse_references_resolves_and_keeps_scope() -> None:
     chunks = [
         {
-            "collection_id": "RELIANCE",
+            "collection_id": "tgt_graph_RELIANCE",
             "document_id": "doc_1",
             "chunk_id": "src",
             "section_label": "4.2",
@@ -15,7 +15,7 @@ def test_traverse_references_resolves_and_keeps_scope() -> None:
             ],
         },
         {
-            "collection_id": "RELIANCE",
+            "collection_id": "tgt_graph_RELIANCE",
             "document_id": "doc_1",
             "chunk_id": "target_same_doc",
             "section_label": "3",
@@ -24,7 +24,7 @@ def test_traverse_references_resolves_and_keeps_scope() -> None:
             "references": [],
         },
         {
-            "collection_id": "RELIANCE",
+            "collection_id": "tgt_graph_RELIANCE",
             "document_id": "doc_2",
             "chunk_id": "target_other_doc",
             "section_label": "3",
@@ -33,7 +33,7 @@ def test_traverse_references_resolves_and_keeps_scope() -> None:
             "references": [],
         },
         {
-            "collection_id": "INFY",
+            "collection_id": "tgt_graph_INFY",
             "document_id": "doc_x",
             "chunk_id": "cross_collection",
             "section_label": "3",
@@ -47,13 +47,13 @@ def test_traverse_references_resolves_and_keeps_scope() -> None:
     assert resolved[0]["resolved"] is True
     assert resolved[0]["target_chunk_id"] == "target_same_doc"
     assert resolved[0]["target_document_id"] in {"doc_1", "doc_2"}
-    assert all(c["collection_id"] == "RELIANCE" for c in resolved[0]["ranked_candidates"])
+    assert all(c["collection_id"] == "tgt_graph_RELIANCE" for c in resolved[0]["ranked_candidates"])
 
 
 def test_traverse_references_returns_unresolved_when_no_candidates() -> None:
     chunks = [
         {
-            "collection_id": "RELIANCE",
+            "collection_id": "tgt_graph_RELIANCE",
             "document_id": "doc_1",
             "chunk_id": "src",
             "section_label": "4.2",

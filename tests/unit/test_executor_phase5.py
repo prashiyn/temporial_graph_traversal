@@ -61,7 +61,7 @@ def test_fetch_tables_returns_table_entries_with_dedup() -> None:
 def test_traverse_references_combines_resolved_and_graph_paths(monkeypatch) -> None:
     chunks = [
         {
-            "collection_id": "RELIANCE",
+            "collection_id": "tgt_graph_RELIANCE",
             "document_id": "d1",
             "chunk_id": "c1",
             "section_label": "4.2",
@@ -70,7 +70,7 @@ def test_traverse_references_combines_resolved_and_graph_paths(monkeypatch) -> N
             "content": "see table 3",
         },
         {
-            "collection_id": "RELIANCE",
+            "collection_id": "tgt_graph_RELIANCE",
             "document_id": "d1",
             "chunk_id": "t1",
             "section_label": "3",

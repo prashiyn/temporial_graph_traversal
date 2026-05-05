@@ -6,7 +6,7 @@ def test_run_query_returns_phase6_contract(monkeypatch) -> None:
         "app.agent.query_engine.parse_query",
         lambda question, collection_override=None, section_hint=None: {  # noqa: ARG005
             "intent": "WHY",
-            "collection": "RELIANCE",
+            "collection": "tgt_graph_RELIANCE",
             "time_context": {"raw_text": "latest", "mode": "latest_fallback", "needs_fallback": True},
             "target": question,
         },
@@ -21,7 +21,7 @@ def test_run_query_returns_phase6_contract(monkeypatch) -> None:
             "documents": [{"document_id": "d1"}],
             "filtered_chunks": [
                 {
-                    "collection_id": "RELIANCE",
+                    "collection_id": "tgt_graph_RELIANCE",
                     "document_id": "d1",
                     "chunk_id": "c1",
                     "timestamp": "2024-04-30",

@@ -9,7 +9,7 @@ client = TestClient(app)
 def test_list_collections_api(monkeypatch) -> None:
     monkeypatch.setattr(
         "app.api.collection_routes.CollectionService.list_collections",
-        lambda self: [CollectionSummary(id="RELIANCE", name="RELIANCE")],  # noqa: ARG005
+        lambda self: [CollectionSummary(id="tgt_graph_RELIANCE", name="tgt_graph_RELIANCE")],  # noqa: ARG005
     )
     response = client.get("/collections")
     assert response.status_code == 200
@@ -17,19 +17,23 @@ def test_list_collections_api(monkeypatch) -> None:
 
 
 def test_get_collection_metadata_api(monkeypatch) -> None:
-    monkeypatch.setattr(
-        "app.api.collection_routes.CollectionService.get_collection_metadata",
-        lambda self, collection_id: CollectionMetadata(  # noqa: ARG005
+    captured: dict[str, str] = {}
+
+    def _get(self, collection_id: str) -> CollectionMetadata:  # noqa: ARG005
+        captured["collection_id"] = collection_id
+        return CollectionMetadata(
             id=collection_id,
             name=collection_id,
             document_count=2,
             chunk_count=30,
             earliest_timestamp="2024-01-01",
             latest_timestamp="2024-06-30",
-        ),
-    )
+        )
+
+    monkeypatch.setattr("app.api.collection_routes.CollectionService.get_collection_metadata", _get)
     response = client.get("/collections/RELIANCE")
     assert response.status_code == 200
+    assert captured.get("collection_id") == "tgt_graph_RELIANCE"
     payload = response.json()
     assert payload["id"] == "RELIANCE"
     assert payload["document_count"] == 2

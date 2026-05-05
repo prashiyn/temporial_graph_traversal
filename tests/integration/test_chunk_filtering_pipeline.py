@@ -3,11 +3,11 @@ from app.agent.executor import execute_plan
 
 def test_executor_includes_filtered_chunks_and_respects_scoped_docs(monkeypatch) -> None:
     def fake_resolve_documents(collection, time_context, driver=None):  # noqa: ARG001
-        assert collection == "RELIANCE"
+        assert collection == "tgt_graph_RELIANCE"
         return ["doc_1", "doc_2"]
 
     def fake_load_document_chunks(collection, doc_ids, driver=None):  # noqa: ARG001
-        assert collection == "RELIANCE"
+        assert collection == "tgt_graph_RELIANCE"
         assert doc_ids == ["doc_1", "doc_2"]
         return {
             "doc_1": [

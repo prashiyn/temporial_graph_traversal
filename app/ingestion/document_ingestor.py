@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+from app.collection_namespace import to_external, to_internal
 from app.graph.neo4j_client import get_driver
 from app.graph.queries import (
     UPSERT_CHUNK_QUERY,
@@ -30,13 +31,15 @@ class DocumentIngestor:
     def ingest_document(self, payload: DocumentIngestionPayload) -> IngestionResult:
         section_ids: set[str] = set()
         reference_count = 0
+        internal_collection_id = to_internal(payload.collection_id) or payload.collection_id
+        payload_write = payload.model_copy(update={"collection_id": internal_collection_id})
 
         with self.driver.session() as session:
-            session.execute_write(self._upsert_collection, payload.collection_id)
-            session.execute_write(self._upsert_document, payload)
+            session.execute_write(self._upsert_collection, internal_collection_id)
+            session.execute_write(self._upsert_document, payload_write)
 
             for chunk in payload.chunks:
-                normalized = map_chunkitem_to_raqe(chunk, payload.collection_id, payload.timestamp)
+                normalized = map_chunkitem_to_raqe(chunk, internal_collection_id, payload.timestamp)
                 session.execute_write(self._upsert_chunk, normalized.model_dump())
 
                 if normalized.section_id and normalized.section_label:
@@ -54,7 +57,7 @@ class DocumentIngestor:
                     )
 
         return IngestionResult(
-            collection_id=payload.collection_id,
+            collection_id=to_external(internal_collection_id) or payload.collection_id,
             document_id=payload.doc_id,
             chunk_count=len(payload.chunks),
             section_count=len(section_ids),

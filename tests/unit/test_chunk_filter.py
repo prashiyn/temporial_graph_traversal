@@ -4,7 +4,7 @@ from app.agent.chunk_filter import filter_chunks
 
 
 def _fake_loader(collection, doc_ids, driver=None):  # noqa: ARG001
-    assert collection == "RELIANCE"
+    assert collection == "tgt_graph_RELIANCE"
     return {
         "doc_1": [
             {

@@ -37,10 +37,10 @@ class FakeDriver:
 def test_q1_fy24_returns_only_matching_collection_docs() -> None:
     driver = FakeDriver(
         {
-            queries.RESOLVE_DOCUMENTS_BY_QUARTER_QUERY: [
-                {"collection_id": "RELIANCE", "doc_id": "rel_q1_fy24", "timestamp": "2024-04-30"},
-                {"collection_id": "INFY", "doc_id": "infy_q1_fy24", "timestamp": "2024-04-30"},
-            ]
+                queries.RESOLVE_DOCUMENTS_BY_QUARTER_QUERY: [
+                    {"collection_id": "tgt_graph_RELIANCE", "doc_id": "rel_q1_fy24", "timestamp": "2024-04-30"},
+                    {"collection_id": "tgt_graph_INFY", "doc_id": "infy_q1_fy24", "timestamp": "2024-04-30"},
+                ]
         }
     )
     resolver = DocumentResolver(driver=driver)
@@ -52,11 +52,11 @@ def test_q1_fy24_returns_only_matching_collection_docs() -> None:
 def test_latest_returns_newest_docs_within_collection_only() -> None:
     driver = FakeDriver(
         {
-            queries.RESOLVE_LATEST_DOCUMENTS_QUERY: [
-                {"collection_id": "RELIANCE", "doc_id": "rel_2024_q2", "timestamp": "2024-06-30"},
-                {"collection_id": "RELIANCE", "doc_id": "rel_2024_q1", "timestamp": "2024-04-30"},
-                {"collection_id": "INFY", "doc_id": "infy_2024_q2", "timestamp": "2024-06-30"},
-            ]
+                queries.RESOLVE_LATEST_DOCUMENTS_QUERY: [
+                    {"collection_id": "tgt_graph_RELIANCE", "doc_id": "rel_2024_q2", "timestamp": "2024-06-30"},
+                    {"collection_id": "tgt_graph_RELIANCE", "doc_id": "rel_2024_q1", "timestamp": "2024-04-30"},
+                    {"collection_id": "tgt_graph_INFY", "doc_id": "infy_2024_q2", "timestamp": "2024-06-30"},
+                ]
         }
     )
     resolver = DocumentResolver(driver=driver)

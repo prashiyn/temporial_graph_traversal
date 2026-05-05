@@ -91,7 +91,7 @@ def test_document_ingestion_persists_collection_document_chunks_sections_and_ref
 
     chunk_calls = [params for _, params in driver.calls if "chunk_id" in params and "chunk_type" in params]
     assert {c["chunk_id"] for c in chunk_calls} == {"ch_1", "ch_2"}
-    assert all(c["collection_id"] == "RELIANCE" for c in chunk_calls)
+    assert all(c["collection_id"] == "tgt_graph_RELIANCE" for c in chunk_calls)
     assert all(c["document_id"] == "doc_q1_fy24" for c in chunk_calls)
 
     section_calls = [params for _, params in driver.calls if "section_id" in params]

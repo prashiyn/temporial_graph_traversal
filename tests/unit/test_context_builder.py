@@ -6,7 +6,7 @@ def test_context_builder_includes_summary_and_provenance() -> None:
         "documents": [{"document_id": "d1"}, {"document_id": "d2"}],
         "filtered_chunks": [
             {
-                "collection_id": "RELIANCE",
+                "collection_id": "tgt_graph_RELIANCE",
                 "document_id": "d1",
                 "chunk_id": "c1",
                 "timestamp": "2024-04-30",
@@ -29,7 +29,7 @@ def test_context_builder_includes_summary_and_provenance() -> None:
         ],
         "tables": [
             {
-                "collection_id": "RELIANCE",
+                "collection_id": "tgt_graph_RELIANCE",
                 "document_id": "d1",
                 "source_chunk_id": "c1",
                 "target_chunk_id": "t1",
@@ -41,6 +41,6 @@ def test_context_builder_includes_summary_and_provenance() -> None:
     assert context["summary"]["document_count"] == 2
     assert context["summary"]["chunk_count"] == 1
     assert context["summary"]["reference_count"] == 1
-    assert context["evidence"][0]["collection_id"] == "RELIANCE"
+    assert context["evidence"][0]["collection_id"] == "tgt_graph_RELIANCE"
     assert context["reference_traces"][0]["resolved"] is False
 

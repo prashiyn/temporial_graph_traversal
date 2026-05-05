@@ -48,7 +48,7 @@ def test_traversal_executes_scoped_query_and_deduplicates() -> None:
     driver = FakeDriver(rows=rows)
     result = traverse_reference_graph("RELIANCE", ["d1"], ["c1"], driver=driver)
     assert driver.session_obj.last_query == queries.TRAVERSE_REFERENCE_MULTI_HOP_QUERY
-    assert driver.session_obj.last_params["collection_id"] == "RELIANCE"
+    assert driver.session_obj.last_params["collection_id"] == "tgt_graph_RELIANCE"
     assert len(result) == 2
 
 

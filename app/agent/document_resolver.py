@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from app.collection_namespace import to_internal
 from app.graph.neo4j_client import get_driver
 from app.graph.queries import (
     RESOLVE_DOCUMENTS_BY_DATE_RANGE_QUERY,
@@ -17,6 +18,7 @@ class DocumentResolver:
     def resolve(self, collection: str, time_context: TimeContext) -> DocumentResolutionResult:
         if not collection:
             raise ValueError("collection is required")
+        collection = to_internal(collection) or collection
 
         mode = time_context.mode
         with self.driver.session() as session:

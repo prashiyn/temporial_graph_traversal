@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import re
 
+from app.collection_namespace import to_internal
 from app.agent.document_chunk_loader import load_document_chunks
 from app.models.chunk_filtering import FilteredChunk
 
@@ -54,6 +55,7 @@ def filter_chunks(
 ) -> list[dict]:
     if not collection:
         raise ValueError("collection is required")
+    collection = to_internal(collection) or collection
     if not doc_ids:
         return []
 

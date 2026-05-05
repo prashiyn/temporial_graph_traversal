@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import re
 
+from app.collection_namespace import to_internal
 from app.models.reference_resolution import ReferenceCandidate, ResolvedReference
 from app.structure.disambiguator import disambiguate
 
@@ -33,6 +34,7 @@ def resolve_reference(
 ) -> dict:
     if not collection:
         raise ValueError("collection is required")
+    collection = to_internal(collection) or collection
     if not doc_ids:
         result = ResolvedReference(
             source_chunk_id=source_chunk["chunk_id"],

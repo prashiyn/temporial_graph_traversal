@@ -6,10 +6,12 @@ client = TestClient(app)
 
 
 def test_phase7_api_success_contract(monkeypatch) -> None:
-    monkeypatch.setattr(
-        "app.api.query_routes.run_query",
-        lambda question, collection=None, section_hint=None: {  # noqa: ARG005
-            "parsed_query": {"collection": "RELIANCE"},
+    captured: dict[str, str | None] = {}
+
+    def _run(question, collection=None, section_hint=None):  # noqa: ARG001
+        captured["collection"] = collection
+        return {
+            "parsed_query": {"collection": "tgt_graph_RELIANCE"},
             "plan": {"steps": []},
             "execution": {
                 "documents": [{"document_id": "d1"}],
@@ -35,14 +37,17 @@ def test_phase7_api_success_contract(monkeypatch) -> None:
                 "context_summary": "documents=1",
                 "supporting_facts": [],
             },
-        },
-    )
+        }
+
+    monkeypatch.setattr("app.api.query_routes.run_query", _run)
     response = client.post("/query/ask", json={"question": "Why revenue changed?", "collection": "RELIANCE"})
     assert response.status_code == 200
+    assert captured.get("collection") == "tgt_graph_RELIANCE"
     payload = response.json()
     assert "parsed_query" in payload
     assert "execution" in payload
     assert "answer" in payload
+    assert payload["parsed_query"]["collection"] == "RELIANCE"
 
 
 def test_phase7_api_missing_collection_error(monkeypatch) -> None:
