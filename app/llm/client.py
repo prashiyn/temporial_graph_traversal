@@ -6,9 +6,9 @@ from app.config import get_settings
 from app.llm.config import get_use_case_config
 
 
-def completion_via_doc_processing(use_case: str, messages: list[dict]) -> str | None:
+def completion_via_llm_service(use_case: str, messages: list[dict]) -> str | None:
     settings = get_settings()
-    base_url = settings.doc_processing_base_url
+    base_url = settings.llm_service_base_url
     if not base_url:
         return None
 
@@ -17,7 +17,7 @@ def completion_via_doc_processing(use_case: str, messages: list[dict]) -> str | 
     model = use_case_config.get("model")
     reasoning_effort = use_case_config.get("reasoning_effort")
     response_format = use_case_config.get("response_format")
-    timeout_seconds = int(use_case_config.get("timeout_seconds", settings.doc_processing_timeout_seconds))
+    timeout_seconds = int(use_case_config.get("timeout_seconds", settings.llm_processing_timeout_seconds))
 
     payload: dict = {
         "provider": provider,

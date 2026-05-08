@@ -1,5 +1,5 @@
 from app.models.query_response import QueryAnswer
-from app.llm.client import completion_via_doc_processing
+from app.llm.client import completion_via_llm_service
 
 
 def generate_answer(question: str, context: dict) -> dict:
@@ -47,7 +47,7 @@ def generate_answer(question: str, context: dict) -> dict:
             ),
         },
     ]
-    llm_answer = completion_via_doc_processing(use_case="answer_generation", messages=llm_messages)
+    llm_answer = completion_via_llm_service(use_case="answer_generation", messages=llm_messages)
     direct_answer = llm_answer or fallback_answer
 
     answer = QueryAnswer(

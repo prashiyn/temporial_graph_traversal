@@ -14,8 +14,8 @@ class Settings(BaseSettings):
     neo4j_password: str = "change-me"
     neo4j_database: str = "neo4j"
     collection_aliases: str = "ril:RELIANCE,reliance:RELIANCE,infy:INFY,infosys:INFY"
-    doc_processing_base_url: str | None = None
-    doc_processing_timeout_seconds: int = 15
+    llm_service_base_url: str | None = None
+    llm_processing_timeout_seconds: int = 15
     llm_config_path: str = "llm_config.yaml"
 
     model_config = SettingsConfigDict(

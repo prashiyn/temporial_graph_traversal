@@ -13,7 +13,7 @@ def load_llm_config() -> dict:
     settings = get_settings()
     config_path = Path(settings.llm_config_path)
     if not config_path.exists():
-        return {"defaults": {"provider": "openai", "timeout_seconds": settings.doc_processing_timeout_seconds}, "use_cases": {}}
+        return {"defaults": {"provider": "openai", "timeout_seconds": settings.llm_processing_timeout_seconds}, "use_cases": {}}
     with config_path.open("r", encoding="utf-8") as handle:
         data = yaml.safe_load(handle) or {}
     data.setdefault("defaults", {})
